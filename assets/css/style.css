@@ -8,3 +8,49 @@
     --tertiary: #9b9b9b;
     font-size: 62.5%;
 }
+
+header {
+    background: var(--tertiary);
+    padding: 5px;
+}
+
+.page-title {
+    color: var(--secondary);
+    margin-bottom: 5px;
+    margin-top: 0;
+    font-size: 4.5rem;
+    text-align: center;
+}
+
+.score-button {
+    margin: 10px 6px 10px 0;
+    flex: 1;
+    text-align: center;
+}
+
+.start-button {
+    margin: 10px 6px 10px 0;
+    flex: 1;
+    text-align: center;
+}
+
+.btn {
+    outline: none;
+    border: none;
+    display: inline-block;
+    padding: 10px 15px;
+    background: var(--primary);
+    font-size: 2.2rem;
+    border-radius: 12px;
+    position: relative;
+    top: -3px;
+    box-shadow: 0 3px var(--secondary);
+  }
+  .btn:hover {
+    box-shadow: 0 2px var(--secondary);
+    top: -2px;
+  }
+  .btn:active {
+    box-shadow: 0 0px var(--secondary);
+    top: 0;
+  }
