@@ -34,6 +34,18 @@ header {
     text-align: center;
 }
 
+.container {
+    margin-bottom: 5px;
+    font-size: 2rem;
+    text-align: center;
+}
+
+.answer-btn {
+    margin: 10px 6px 10px 0;
+    flex: 1;
+    text-align: center;
+}
+
 .btn {
     outline: none;
     border: none;

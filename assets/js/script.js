@@ -3,6 +3,8 @@ var startGameEl = document.querySelector("#new-game");
 var gameContainer = document.querySelector("#questions");
 
 var questionEl = document.createElement("h3");
+var accuracyEl = document.createElement("h3");
+
 var answer1El = document.createElement("button");
 answer1El.className = "btn answer-btn";
 var answer2El = document.createElement("button");
@@ -57,6 +59,7 @@ function generateQuestion() {
         answer2El.textContent = questions[questionsIndex].ans2;
         answer3El.textContent = questions[questionsIndex].ans3;
         answer4El.textContent = questions[questionsIndex].ans4;
+        debugger;
         gameContainer.appendChild(questionEl);
         gameContainer.appendChild(answer1El);
         gameContainer.appendChild(answer2El);
@@ -66,13 +69,23 @@ function generateQuestion() {
         var selectedAnswer = document.querySelectorAll(".answer-btn")
         
         for (i = 0; i < selectedAnswer.length; i++) {
-            selectedAnswer[i].addEventListener("click", consoleDisplay);
+            selectedAnswer[i].addEventListener("click", checkAnswer);
         }
     }
 }
 
-function consoleDisplay() {
-    console.log("I was clicked!");
+function checkAnswer(event) {
+    var targetEl = event.target;
+    if (questions[questionsIndex].correctAns === targetEl.textContent) {
+        accuracyEl.textContent = "Correct!";
+        gameContainer.appendChild(accuracyEl);
+    } else {
+        accuracyEl.textContent = "Incorrect.";
+        gameContainer.appendChild(accuracyEl);
+        timeLeft -= 5;
+    }
+    questionsIndex++;
+    generateQuestion();
 }
 
 startGameEl.addEventListener("click", gameTimer);
