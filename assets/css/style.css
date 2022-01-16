@@ -46,6 +46,16 @@ header {
     text-align: center;
 }
 
+.enter-score {
+    margin-bottom: 5px;
+    font-size: 2rem;
+    text-align: center;
+}
+
+.form-btn {
+    margin: 5px;
+}
+
 .btn {
     outline: none;
     border: none;

@@ -1,9 +1,14 @@
 var timerEl = document.getElementById('timer-display');
 var startGameEl = document.querySelector("#new-game");
 var gameContainer = document.querySelector("#questions");
+var scoreScreenEl = document.querySelector("#score-screen");
 
 var questionEl = document.createElement("h3");
 var accuracyEl = document.createElement("h3");
+var scoreEl = document.createElement("h3");
+var formEl = document.createElement("input");
+var formBtnEl = document.createElement("button");
+formBtnEl.className = "form-btn";
 
 var answer1El = document.createElement("button");
 answer1El.className = "btn answer-btn";
@@ -18,6 +23,7 @@ var timeLeft = 90;
 var userScore = 0;
 var questionsIndex = 0;
 var timeInterval;
+var highScores = [];
 
 function question(question, ans1, ans2, ans3, ans4, correctAns) {
     this.question = question;
@@ -51,15 +57,18 @@ function gameTimer() {
 function generateQuestion() {
     startGameEl.style.display = "none";
     if (questionsIndex === questions.length) {
-        userScore = timeLeft;
+        // Stop timer and clear elements from page
         clearInterval(timeInterval)
+        gameContainer.style.display = "none";
+        timerEl.style.display = "none";
+        // Prompt for initials and set score
+        setUserScore();
     } else {
         questionEl.textContent = questions[questionsIndex].question;
         answer1El.textContent = questions[questionsIndex].ans1;
         answer2El.textContent = questions[questionsIndex].ans2;
         answer3El.textContent = questions[questionsIndex].ans3;
         answer4El.textContent = questions[questionsIndex].ans4;
-        debugger;
         gameContainer.appendChild(questionEl);
         gameContainer.appendChild(answer1El);
         gameContainer.appendChild(answer2El);
@@ -86,6 +95,38 @@ function checkAnswer(event) {
     }
     questionsIndex++;
     generateQuestion();
+}
+
+function setUserScore() {
+    if (timeLeft >= 0) {
+        userScore = timeLeft;
+    } else {
+            userScore = 0;
+    }
+    scoreEl.textContent = "Your score is " + userScore;
+    scoreScreenEl.appendChild(scoreEl);
+
+    // Create form to have user enter initials
+    formEl.setAttribute("type", "text");
+    formEl.setAttribute("name", "user-initials");
+    formEl.setAttribute("placeholder", "Enter Your Initials.");
+    scoreScreenEl.appendChild(formEl);
+    formBtnEl.textContent = "Submit";
+    scoreScreenEl.appendChild(formBtnEl);
+
+    // Create listener for submit button, and store score/user initials
+    var formSubmit = document.querySelector(".form-btn");
+
+    formSubmit.addEventListener("click", storeScore);
+}
+
+function storeScore() {
+    var userInitials = document.querySelector("input[name='user-initials']").value;
+
+    if (!userInitials) {
+        alert("Please enter your initials.");
+        return false;
+    }
 }
 
 startGameEl.addEventListener("click", gameTimer);
