@@ -165,7 +165,7 @@ function displayScores(userScoreObj) {
 
 function clearScores() {
     localStorage.clear();
-    location.reload;
+    location.reload();
 }
 
 startGameEl.addEventListener("click", gameTimer);
