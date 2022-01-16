@@ -2,6 +2,9 @@ var timerEl = document.getElementById('timer-display');
 var startGameEl = document.querySelector("#new-game");
 var gameContainer = document.querySelector("#questions");
 var scoreScreenEl = document.querySelector("#score-screen");
+var viewScoresEl = document.querySelector("#view-scores");
+var clearScoresEl = document.querySelector("#clear-scores");
+var scoreDisplayEl = document.querySelector("#scores-display");
 
 var questionEl = document.createElement("h3");
 var accuracyEl = document.createElement("h3");
@@ -23,7 +26,7 @@ var timeLeft = 90;
 var userScore = 0;
 var questionsIndex = 0;
 var timeInterval;
-var highScores = [];
+var arrCounter = 0;
 
 function question(question, ans1, ans2, ans3, ans4, correctAns) {
     this.question = question;
@@ -56,7 +59,7 @@ function gameTimer() {
 
 function generateQuestion() {
     startGameEl.style.display = "none";
-    if (questionsIndex === questions.length) {
+    if (questionsIndex === questions.length || timeLeft <= 0) {
         // Stop timer and clear elements from page
         clearInterval(timeInterval)
         gameContainer.style.display = "none";
@@ -121,13 +124,51 @@ function setUserScore() {
 }
 
 function storeScore() {
+    scoreScreenEl.style.display = "none";
     var userInitials = document.querySelector("input[name='user-initials']").value;
+
+    var userScoreObj = {
+        score: userScore,
+        initials: userInitials
+    }
 
     if (!userInitials) {
         alert("Please enter your initials.");
         return false;
     }
+
+    var highScores = JSON.parse(localStorage.getItem("scores")) || [];
+
+    highScores.push(userScoreObj);
+    localStorage.setItem("scores", JSON.stringify(highScores));
+}
+
+function viewScores() {
+    var savedScores = localStorage.getItem("scores");
+
+    if (savedScores === null) {
+        return false;
+    }
+
+    savedScores = JSON.parse(savedScores);
+
+    for (var i = 0; i < savedScores.length; i++) {
+        displayScores(savedScores[i]);
+    }
+}
+
+function displayScores(userScoreObj) {
+    var userDisplayEl = document.createElement("h3");
+    userDisplayEl.textContent = "Score: " + userScoreObj.score + " Initials: " + userScoreObj.initials;
+    scoreDisplayEl.appendChild(userDisplayEl);    
+}
+
+function clearScores() {
+    localStorage.clear();
+    location.reload;
 }
 
 startGameEl.addEventListener("click", gameTimer);
 startGameEl.addEventListener("click", generateQuestion);
+viewScoresEl.addEventListener("click", viewScores);
+clearScoresEl.addEventListener("click", clearScores);
